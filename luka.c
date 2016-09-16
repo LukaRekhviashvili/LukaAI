@@ -1,11 +1,12 @@
-#include <stdio.h>
-#include <time.h>
 #include <stdlib.h>
 #include <math.h>
 #include <string.h>
 
 // header files
 #include "File_reader.h"
+#include "Neighbour.h"
+#include "Randomiser.h"
+#include "Best_match_unit.h"
 
 // Structures
 struct data_vect {
@@ -14,66 +15,34 @@ struct data_vect {
     char * name;
 };
 
-struct node {
-    double * w;
-    double act;
-    char * label;
-};
-
-struct bmu {
-    int i, j;
-    struct bmu * next;
-};
-
-struct neighbour_stats{
-    int start_i, start_j;
-    int end_i, end_j;
-    int needed_n_of_neighbours, n_of_rings;
-};
+//struct node {
+//    double * w;
+//    double act;
+//    char * label;
+//};
 
 // program variables
-FILE * fp;
 int number_of_data_vectors, data_vector_size;
 struct data_vect * data;
 struct data_vect * randomised_data;
 double * middle_vector;
-double RANDOMISER_MAX = 0.02, RANDOMISER_MIN = -0.05;
 int * vShuffler;
 struct node ** node_map;
 int NODE_MAP_LENGTH = 11, NODE_MAP_HEIGHT = 6;
-struct bmu *first_node;
-struct bmu *last_node;
-double bestM_act;
-int number_of_bmu_nodes = 0;
-struct neighbour_stats neigbour;
-struct bmu *best_match_unit;
-
 
 // function declaration
-double * get_random_vector();
 void initialise_nums();
 void initialise_data();
 void initialise_randomised_data();
 void initialise_middle_vector();
 void initialise_node_map();
-double get_random_double(double min, double max);
-int get_random_int(int minI, int maxI);
 void print_data_element(struct data_vect data);
 double euclid_dist(double *V1, double *V2, int v_size);
 void shuffle_data();
-void add_bmu_node(int i, int j, int act);
-struct bmu * get_bmu_node();
-void print_bmu(struct bmu *_bmu);
 void print_node_map_names();
 void print_data(struct data_vect *data);
 void find_normals();
 void normalise_data();
-void find_bmu_linked_list();
-
-// neighbour funs
-void initialise_neighbour();
-void find_number_of_neighbours();
-void determine_neighbour_indexes(struct bmu *_bmu);
 
 
 // MAIN
@@ -100,13 +69,14 @@ int main()
     shuffle_data();
 
     initialise_node_map();
-    find_bmu_linked_list();
+    find_bmu_linked_list(node_map, NODE_MAP_HEIGHT, NODE_MAP_LENGTH);
 
     best_match_unit = get_bmu_node();
 
-    print_bmu(best_match_unit);
+    print_bmu(best_match_unit, node_map);
 
-    initialise_neighbour();
+    initialise_neighbour(
+            NODE_MAP_HEIGHT, NODE_MAP_LENGTH, best_match_unit);
 
     return 0;
 }
@@ -163,7 +133,7 @@ void initialise_middle_vector()
 
     for (int i = 0; i < data_vector_size; ++i) {
         for (int j = 0; j < number_of_data_vectors; ++j) {
-            middle_vector[i] = data[j].vect[i] * data[j].vect[i];
+            middle_vector[i] += data[j].vect[i];
         }
 
         middle_vector[i] /= number_of_data_vectors;
@@ -175,7 +145,7 @@ void initialise_randomised_data()
     randomised_data = (struct data_vect *)malloc(number_of_data_vectors * sizeof(struct data_vect));
 
     for (int i = 0; i < number_of_data_vectors; ++i) {
-        randomised_data[i].vect = get_random_vector();
+        randomised_data[i].vect = get_random_vector(data_vector_size, middle_vector);
         randomised_data[i].name = malloc(1 + strlen(data[i].name));
         strcpy(randomised_data[i].name, data[i].name);
 
@@ -234,12 +204,6 @@ void initialise_node_map()
     }
 }
 
-void initialise_neighbour()
-{
-    find_number_of_neighbours();
-    determine_neighbour_indexes(best_match_unit);
-}
-
 // others
 double euclid_dist(double *V1, double *V2, int v_size)
 {
@@ -291,78 +255,6 @@ void normalise_data()
     }
 }
 
-// BMUs
-void find_bmu_linked_list()
-{
-    for (int i = 0; i < NODE_MAP_HEIGHT; ++i) {
-        for (int j = 0; j < NODE_MAP_LENGTH; ++j) {
-            add_bmu_node(i, j, node_map[i][j].act);
-        }
-    }
-};
-
-void add_bmu_node(int i, int j, int act)
-{
-    if(first_node == NULL){
-        bestM_act = act;
-
-        first_node = malloc(sizeof(struct bmu));
-
-        first_node->i = i;
-        first_node->j = j;
-
-        last_node = first_node;
-
-        number_of_bmu_nodes = 1;
-    }
-    else if(act < bestM_act){
-        bestM_act = act;
-
-        first_node->i = i;
-        first_node->j = j;
-
-        last_node = first_node;
-        first_node->next = NULL;
-
-        number_of_bmu_nodes = 1;
-    }
-    else if(act == bestM_act){
-        last_node->next = malloc(sizeof(struct bmu));
-
-        last_node = last_node->next;
-
-        last_node->i = i;
-        last_node->j = j;
-
-        number_of_bmu_nodes++;
-    }
-}
-
-struct bmu * get_bmu_node()
-{
-    if(number_of_bmu_nodes == 0) {
-        printf("nigga u're fucked!!\n");
-        return NULL;
-    }
-
-    if(number_of_bmu_nodes == 1) {
-        return first_node;
-    }
-
-    // get random bmu
-    int randN = get_random_int(0, number_of_bmu_nodes);
-    struct bmu * iterator = first_node;
-
-    for (int i = 0; i < randN; ++i) {
-        iterator = iterator->next;
-    }
-
-    //printf("%d %d\n", iterator->i, iterator->j);
-    //printf("%d %d\n", first_node[randN].i, first_node[randN].j);
-
-    return iterator;
-}
-
 // printing
 void print_data_element(struct data_vect data)
 {
@@ -384,14 +276,6 @@ void print_data(struct data_vect *data)
     }
 }
 
-void print_bmu(struct bmu *_bmu)
-{
-    printf("%d %d  act: %f <-%s",
-           _bmu->i, _bmu->j,
-           node_map[_bmu->i][_bmu->j].act,
-           node_map[_bmu->i][_bmu->j].label);
-}
-
 void print_node_map_names()
 {
     for(int i = 0; i < NODE_MAP_HEIGHT; i++){
@@ -401,70 +285,3 @@ void print_node_map_names()
         printf("\n");
     }
 }
-
-// randomizing
-double get_random_double(double minD, double maxD)
-{
-    double rand_from_0_to_1 = ((double)rand()/(double)RAND_MAX);
-    double ans = minD + (rand_from_0_to_1 * (maxD - minD));
-
-    return ans;
-}
-
-int get_random_int(int minI, int maxI)
-{
-    return minI + (rand() % (maxI - minI));
-}
-
-double * get_random_vector()
-{
-    double * ans = (double *)malloc(data_vector_size * sizeof(double));
-
-    for (int i = 0; i < data_vector_size; ++i) {
-        ans[i] = get_random_double(middle_vector[i] + RANDOMISER_MIN,
-                                   middle_vector[i] + RANDOMISER_MAX);
-    }
-
-    return ans;
-}
-
-// neighbour
-void find_number_of_neighbours()
-{
-    int minimum_n_of_neighbours = NODE_MAP_HEIGHT * NODE_MAP_LENGTH * 3 / 10;
-
-    neigbour.needed_n_of_neighbours = 8;
-    neigbour.n_of_rings = 1;
-
-    for (int i = 0; neigbour.needed_n_of_neighbours < minimum_n_of_neighbours && i < minimum_n_of_neighbours; ++i) {
-        neigbour.needed_n_of_neighbours += (i + 2) * 8;
-        neigbour.n_of_rings++;
-    }
-
-    //printf("%d    %d\n", needed_n_of_neighbours, minimum_n_of_neighbours);
-}
-
-void determine_neighbour_indexes(struct bmu *_bmu)
-{
-    int start_i = _bmu->i - neigbour.n_of_rings;
-    int start_j = _bmu->j - neigbour.n_of_rings;
-
-    int end_i = _bmu->i + neigbour.n_of_rings;
-    int end_j = _bmu->j + neigbour.n_of_rings;
-
-    if (start_i < 0) start_i = 0;
-    if (start_j < 0) start_j = 0;
-
-    if (end_j > NODE_MAP_LENGTH) end_j = NODE_MAP_LENGTH;
-    if (end_i > NODE_MAP_HEIGHT) end_i = NODE_MAP_HEIGHT;
-
-    // assign indexes
-    neigbour.start_i = start_i;
-    neigbour.start_j = start_j;
-
-    neigbour.end_i = end_i;
-    neigbour.end_j = end_j;
-
-    //printf("%d %d      %d %d\n", neigbour.start_i, neigbour.start_j, neigbour.end_i, neigbour.end_j);
-}
-

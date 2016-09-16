@@ -1,6 +1,6 @@
 #include "File_reader.h"
 
-extern FILE * fp;
+FILE * fp;
 
 void open_file_stream()
 {
