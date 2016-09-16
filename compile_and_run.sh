@@ -6,4 +6,5 @@ File_reader.c \
 Neighbour.c \
 Randomiser.c \
 Best_match_unit.c \
+Node_map.c \
  -lm && ./luka_AI

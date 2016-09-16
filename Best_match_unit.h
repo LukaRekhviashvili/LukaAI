@@ -2,18 +2,14 @@
 #define BEST_MATCH_UNIT_H_INCLUDED
 
 #include "Randomiser.h"
+#include "Node_map.h"
+
 #include <stdio.h>
 
 // struct
 struct bmu {
     int i, j;
     struct bmu * next;
-};
-
-struct node {
-    double * w;
-    double act;
-    char * label;
 };
 
 // variables
