@@ -9,11 +9,6 @@ struct neighbour_stats{
     int needed_n_of_neighbours, n_of_rings;
 };
 
-//struct bmu {
-//    int i, j;
-//    struct bmu * next;
-//};
-
 // neighbour funs
 void determine_neighbours(int NODE_MAP_HEIGHT, int NODE_MAP_LENGTH, struct bmu *_bmu);
 void find_number_of_neighbours(int NODE_MAP_HEIGHT, int NODE_MAP_LENGTH);
