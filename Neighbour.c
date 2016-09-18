@@ -2,7 +2,7 @@
 
 struct neighbour_stats neigbour;
 
-void initialise_neighbour(int NODE_MAP_HEIGHT, int NODE_MAP_LENGTH, struct bmu *_bmu)
+void determine_neighbours(int NODE_MAP_HEIGHT, int NODE_MAP_LENGTH, struct bmu *_bmu)
 {
     find_number_of_neighbours(NODE_MAP_HEIGHT, NODE_MAP_LENGTH);
     determine_neighbour_indexes(NODE_MAP_HEIGHT, NODE_MAP_LENGTH, _bmu);

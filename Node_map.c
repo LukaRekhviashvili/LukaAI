@@ -43,8 +43,6 @@ void initialise_node_map(int data_vector_size, struct data_vect *data)
             //printf("%f\n", node_map[i][j].act);
         }
     }
-
-    find_node_map_actiavtions(data, data_vector_size);
 }
 
 void find_node_map_actiavtions(struct data_vect *data, int data_vector_size)

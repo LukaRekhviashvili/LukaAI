@@ -6,11 +6,7 @@
 #include <string.h>
 #include <math.h>
 
-struct data_vect {
-    double * vect;
-    double norm;
-    char * name;
-};
+#include "Input_data_vect.h"
 
 extern double RANDOMISER_MAX, RANDOMISER_MIN;
 extern struct data_vect * randomised_data;
