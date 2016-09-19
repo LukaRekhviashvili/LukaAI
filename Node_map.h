@@ -17,7 +17,7 @@ extern int NODE_MAP_LENGTH, NODE_MAP_HEIGHT;
 
 
 void initialise_node_map(int data_vector_size, struct data_vect *data);
-void find_node_map_actiavtions(struct data_vect *data, int data_vector_size);
+void find_node_map_actiavtions(struct data_vect *data, int data_vector_size,int number_of_data_vectors, int Time);
 
 double euclid_dist(double *V1, double *V2, int v_size);
 

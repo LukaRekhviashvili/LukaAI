@@ -11,8 +11,6 @@ struct neighbour_stats{
 
 // neighbour funs
 void determine_neighbours(int NODE_MAP_HEIGHT, int NODE_MAP_LENGTH, struct bmu *_bmu);
-void find_number_of_neighbours(int NODE_MAP_HEIGHT, int NODE_MAP_LENGTH);
-void determine_neighbour_indexes(int NODE_MAP_HEIGHT, int NODE_MAP_LENGTH, struct bmu *_bmu);
 
 // variables
 extern struct neighbour_stats neigbour;

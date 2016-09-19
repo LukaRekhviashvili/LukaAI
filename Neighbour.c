@@ -2,6 +2,11 @@
 
 struct neighbour_stats neigbour;
 
+// private function declarations
+void find_number_of_neighbours(int NODE_MAP_HEIGHT, int NODE_MAP_LENGTH);
+void determine_neighbour_indexes(int NODE_MAP_HEIGHT, int NODE_MAP_LENGTH, struct bmu *_bmu); 
+
+
 void determine_neighbours(int NODE_MAP_HEIGHT, int NODE_MAP_LENGTH, struct bmu *_bmu)
 {
     find_number_of_neighbours(NODE_MAP_HEIGHT, NODE_MAP_LENGTH);

@@ -11,6 +11,7 @@
 extern double RANDOMISER_MAX, RANDOMISER_MIN;
 extern struct data_vect * randomised_data;
 extern int * shuffled_vector;
+extern double * middle_vector;
 
 double get_random_double(double min, double max);
 int get_random_int(int minI, int maxI);

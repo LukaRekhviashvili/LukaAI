@@ -1,6 +1,6 @@
 #include "Node_map.h"
 
-int NODE_MAP_LENGTH = 11, NODE_MAP_HEIGHT = 6;
+int NODE_MAP_LENGTH = 10, NODE_MAP_HEIGHT = 8;
 struct node ** node_map;
 
 void initialise_node_map(int data_vector_size, struct data_vect *data)
@@ -45,16 +45,17 @@ void initialise_node_map(int data_vector_size, struct data_vect *data)
     }
 }
 
-void find_node_map_actiavtions(struct data_vect *data, int data_vector_size)
+void find_node_map_actiavtions(struct data_vect *data, int data_vector_size,int number_of_data_vectors, int Time)
 {
+    int iterator = Time % number_of_data_vectors;
+
     for (int i = 0; i < NODE_MAP_HEIGHT; ++i) {
         for (int j = 0; j < NODE_MAP_LENGTH; ++j) {
-            int iterator = i * NODE_MAP_LENGTH + j;
-
             node_map[i][j].act =
-                    euclid_dist(node_map[i][j].w,
-                                data[shuffled_vector[iterator]].vect,
-                                data_vector_size);
+                euclid_dist(
+                    node_map[i][j].w,
+                    data[shuffled_vector[iterator]].vect,
+                    data_vector_size);
         }
     }
 }
@@ -76,7 +77,10 @@ void print_node_map_names()
 {
     for(int i = 0; i < NODE_MAP_HEIGHT; i++){
         for(int j = 0; j < NODE_MAP_LENGTH; j++){
-            printf("%c", node_map[i][j].label[5]);
+            for(int k = 0; k < data_vector_size; k++){
+                printf("%.2f ", node_map[i][j].w[k]);
+            }
+            printf("|");
         }
         printf("\n");
     }

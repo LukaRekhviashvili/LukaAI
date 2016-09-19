@@ -80,7 +80,7 @@ struct bmu * get_bmu_node()
 
 void print_bmu(struct bmu *_bmu, struct node ** node_map)
 {
-    printf("%d %d  act: %f <-%s",
+    printf("%d %d  act: %f <-%s \n",
            _bmu->i, _bmu->j,
            node_map[_bmu->i][_bmu->j].act,
            node_map[_bmu->i][_bmu->j].label);
