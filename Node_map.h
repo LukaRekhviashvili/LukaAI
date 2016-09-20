@@ -5,6 +5,7 @@
 #include "Randomiser.h"
 #include "Utils.h"
 
+
 struct node {
     double * w;
     double act;
@@ -21,6 +22,6 @@ void find_node_map_actiavtions(struct data_vect *data, int data_vector_size,int 
 
 double euclid_dist(double *V1, double *V2, int v_size);
 
-void print_node_map_names();
+void print_node_map_names(int b_i, int b_j);
 
 #endif

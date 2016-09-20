@@ -1,6 +1,12 @@
 #include "Node_map.h"
+#include "Neighbour.h"
 
-int NODE_MAP_LENGTH = 10, NODE_MAP_HEIGHT = 8;
+// colors
+#define RED  "\x1B[31m"
+#define NRM  "\x1B[0m"
+#define BLU  "\x1B[34m"
+
+int NODE_MAP_LENGTH = 10, NODE_MAP_HEIGHT = 6;
 struct node ** node_map;
 
 void initialise_node_map(int data_vector_size, struct data_vect *data)
@@ -34,10 +40,7 @@ void initialise_node_map(int data_vector_size, struct data_vect *data)
 
 
             // Initialise label with name
-            node_map[i][j].label =
-                    malloc(1 + strlen(randomised_data[iterator].name));
-            strcpy(node_map[i][j].label, randomised_data[iterator].name);
-
+            node_map[i][j].label = malloc(16 * sizeof(char));
 
             //printf("%s   %s\n",node_map[i][j].label, randomised_data[iterator].name);
             //printf("%f\n", node_map[i][j].act);
@@ -73,16 +76,35 @@ double euclid_dist(double *V1, double *V2, int v_size)
     return sqrt(sum);
 }
 
-void print_node_map_names()
-{
+void print_node_map_names(int b_i, int b_j)
+{ 
+    
     for(int i = 0; i < NODE_MAP_HEIGHT; i++){
         for(int j = 0; j < NODE_MAP_LENGTH; j++){
-            for(int k = 0; k < data_vector_size; k++){
-                printf("%.2f ", node_map[i][j].w[k]);
+            // colors
+            if(b_i == i && b_j == j){
+                printf("%s", BLU);
             }
+            else if(i >= neigbour.start_i && i < neigbour.end_i &&
+                    j >= neigbour.start_j && j < neigbour.end_j){
+
+                printf("%s", RED);
+            }
+            else{
+                printf("%s", NRM);
+            }
+            // end colors
+
+            for(int k = 0; k < data_vector_size - 1; k++){
+                printf("%.4f ", node_map[i][j].w[k]);
+            }
+
+            printf("%.4f", node_map[i][j].w[data_vector_size - 1]);
             printf("|");
         }
         printf("\n");
     }
+
+    printf("%s", NRM);
 }
 

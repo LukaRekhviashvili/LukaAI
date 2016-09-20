@@ -18,5 +18,6 @@ int get_random_int(int minI, int maxI);
 double * get_random_vector(int data_vector_size, double * middle_vector);
 void initialise_randomised_data_vect(struct data_vect *data, int number_of_data_vectors, int data_vector_size);
 void intitialise_shuffled_vect(int number_of_data_vectors);
+void shuffle_vect(int number_of_data_vectors);
 
 #endif
