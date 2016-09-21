@@ -6,9 +6,11 @@ struct bmu *last_node;
 double bestM_act;
 int number_of_bmu_nodes = 0;
 
-void find_bmu_linked_list(struct node ** node_map, 
-	int NODE_MAP_HEIGHT, int NODE_MAP_LENGTH)
+void find_bmu_linked_list(struct node ** node_map, int NODE_MAP_HEIGHT, int NODE_MAP_LENGTH)
 {
+    first_node = NULL;
+    last_node = NULL;
+
     for (int i = 0; i < NODE_MAP_HEIGHT; ++i) {
         for (int j = 0; j < NODE_MAP_LENGTH; ++j) {
             add_bmu_node(i, j, node_map[i][j].act);
@@ -16,7 +18,7 @@ void find_bmu_linked_list(struct node ** node_map,
     }
 };
 
-void add_bmu_node(int i, int j, int act)
+void add_bmu_node(int i, int j, double act)
 {
     if(first_node == NULL){
         bestM_act = act;

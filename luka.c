@@ -14,7 +14,7 @@
 int TOTAL_NUMBER_OF_ITERATIONS = 500 * 150; // 500 * n_of_d_vects
 int CURRENT_NUMBER_OF_ITERATIONS;
 double ALPHA_COEFICIENT = 0.9; // 0,7 - 0,9
-int print_coefivcient = 1;
+int print_coefivcient = 100;
 
 //functions
 void print_doubles_vector(double * V);
@@ -51,7 +51,6 @@ int main()
     // MAIN LOOP
     // calculate number of first phase iterations
 
-    end_pahse();
     // First phase
     go_through_phase_1_();
 
@@ -92,13 +91,15 @@ void go_through_phase_1_()
 
         // printing the output
         if (time % print_coefivcient == 0){ 
-            printf("Progress=>\t N:%d\t |%f%%\n", 
-                    time, 
+            printf("Progress=>\t N:%d\t |%f%%\n",
+                    time,
                     100 * (double)time/(double)CURRENT_NUMBER_OF_ITERATIONS);
-            print_node_map_names(best_match_unit->i, best_match_unit->j);
-            print_bmu(best_match_unit, node_map);
+            //print_node_map_names(best_match_unit->i, best_match_unit->j);
+            //print_bmu(best_match_unit, node_map);
+
+            //printf("\n");
             //end_pahse();
-            sleep(1);
+            //sleep(1);
         }
 
 
@@ -209,9 +210,9 @@ void iterate_through_neighbours(int Time, int b_i, int b_j)
 
 
     if (Time % print_coefivcient == 0){ 
-        print_doubles_vector(data[iterator].vect);
+        //print_doubles_vector(data[iterator].vect);
 
-        printf("alpha: %f    ", alpha);
+        //printf("alpha: %f    ", alpha);
         //printf("neighbour_coeficient: %f\t", neighbour_coeficient);
         //printf("scalar: %f\n", alpha * neighbour_coeficient);
     }

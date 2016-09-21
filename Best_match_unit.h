@@ -24,7 +24,7 @@ void print_bmu(struct bmu *_bmu, struct node ** node_map);
 
 struct bmu * get_bmu_node();
 
-void add_bmu_node(int i, int j, int act);
+void add_bmu_node(int i, int j, double act);
 void find_bmu_linked_list(struct node ** node_map, 
 	int NODE_MAP_HEIGHT, int NODE_MAP_LENGTH);
 
