@@ -1,10 +1,12 @@
 #include "Neighbour.h"
 
+#include <math.h>
+
 struct neighbour_stats neigbour;
 
 // private function declarations
-void find_number_of_neighbours(int NODE_MAP_HEIGHT, int NODE_MAP_LENGTH, int Time);
-void determine_neighbour_indexes(int NODE_MAP_HEIGHT, int NODE_MAP_LENGTH, struct bmu *_bmu, int TOTAL); 
+void find_number_of_neighbours(int NODE_MAP_HEIGHT, int NODE_MAP_LENGTH, int Time, int TOTAL);
+void determine_neighbour_indexes(int NODE_MAP_HEIGHT, int NODE_MAP_LENGTH, struct bmu *_bmu);
 
 
 void determine_neighbours(int NODE_MAP_HEIGHT, int NODE_MAP_LENGTH, struct bmu *_bmu, int Time, int TOTAL)
@@ -13,20 +15,13 @@ void determine_neighbours(int NODE_MAP_HEIGHT, int NODE_MAP_LENGTH, struct bmu *
     determine_neighbour_indexes(NODE_MAP_HEIGHT, NODE_MAP_LENGTH, _bmu);
 }
 
-void find_number_of_neighbours(int NODE_MAP_HEIGHT, int NODE_MAP_LENGTH, int Time)
+void find_number_of_neighbours(int NODE_MAP_HEIGHT, int NODE_MAP_LENGTH, int Time, int TOTAL)
 {
-    int minimum_n_of_neighbours = NODE_MAP_HEIGHT * NODE_MAP_LENGTH * 3 / 10;
+    double time_constant = (double)TOTAL / (double)MAP_RAD;
 
-    neigbour.needed_n_of_neighbours = 8;
-    neigbour.n_of_rings = 1;
+    neigbour.n_of_rings = (double)MAP_RAD * exp(-(double)Time/time_constant);
 
-    //for (int i = 0; neigbour.needed_n_of_neighbours < minimum_n_of_neighbours && i < minimum_n_of_neighbours; ++i) {
-    //    neigbour.needed_n_of_neighbours += (i + 2) * 8;
-    //    neigbour.n_of_rings++;
-    //}
-
-    //printf("%d    %d\n", needed_n_of_neighbours, minimum_n_of_neighbours);
-    if(Time == 2)
+    if(neigbour.n_of_rings < 1)
         neigbour.n_of_rings = 1;
 }
 

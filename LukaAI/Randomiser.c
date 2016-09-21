@@ -16,12 +16,6 @@ void initialise_middle_vector(struct data_vect *data, int number_of_data_vectors
 {
     middle_vector = (double *)malloc(data_vector_size * sizeof(double));
 
-    //printf("printing middle vector\n");
-    //for(int i=0;i<data_vector_size; i++){
-    //    printf("%f ", middle_vector[i]);
-    //}
-    //printf("printing middle vector ENDDDDDDD\n");
-
     for (int i = 0; i < data_vector_size; ++i) {
         for (int j = 0; j < number_of_data_vectors; ++j) {
             middle_vector[i] += data[j].vect[i];
@@ -50,8 +44,8 @@ double * get_random_vector(int data_vector_size, double * middle_vector)
     double * ans = (double *)malloc(data_vector_size * sizeof(double));
 
     for (int i = 0; i < data_vector_size; ++i) {
-        //ans[i] = get_random_double(middle_vector[i] + RANDOMISER_MIN, middle_vector[i] + RANDOMISER_MAX);
-        ans[i] = get_random_double(0.0, 1.0);
+        ans[i] = get_random_double(middle_vector[i] + RANDOMISER_MIN,
+                                   middle_vector[i] + RANDOMISER_MAX);
     }
 
     return ans;
@@ -68,6 +62,8 @@ void initialise_randomised_data_vect(struct data_vect *data, int number_of_data_
 
     for (int i = 0; i < number_of_data_vectors; ++i) {
         randomised_data[i].vect = get_random_vector(data_vector_size, middle_vector);
+        randomised_data[i].name = malloc(1 + strlen(data[i].name));
+        strcpy(randomised_data[i].name, data[i].name);
 
         for (int j = 0; j < data_vector_size; ++j) {
             randomised_data[i].norm += randomised_data[i].vect[j] * randomised_data[i].vect[j];
@@ -79,13 +75,6 @@ void initialise_randomised_data_vect(struct data_vect *data, int number_of_data_
 void intitialise_shuffled_vect(int number_of_data_vectors)
 {
     shuffled_vector = malloc(number_of_data_vectors * sizeof(int));
-
-    shuffle_vect(number_of_data_vectors);
-}
-
-
-void shuffle_vect(int number_of_data_vectors)
-{
     for (int i = 0; i < number_of_data_vectors; ++i) {
         shuffled_vector[i] = i;
     }

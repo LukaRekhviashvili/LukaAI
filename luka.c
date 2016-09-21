@@ -9,6 +9,7 @@
 // colors
 #define RED  "\x1B[31m"
 #define NRM  "\x1B[0m"
+#define BLU  "\x1B[34m"
 
 int TOTAL_NUMBER_OF_ITERATIONS = 500 * 150; // 500 * n_of_d_vects
 int CURRENT_NUMBER_OF_ITERATIONS;
@@ -38,6 +39,11 @@ int main()
 
     intitialise_shuffled_vect(number_of_data_vectors);
 
+    //printf("HERE:\n");
+    //for(int i=0;i<number_of_data_vectors;i++){
+    //    print_data_element(data[shuffled_vector[i]]);
+    //}
+
     initialise_randomised_data_vect(data, number_of_data_vectors, data_vector_size);
 
     initialise_node_map(data_vector_size, data);
@@ -48,7 +54,6 @@ int main()
     end_pahse();
     // First phase
     go_through_phase_1_();
-
 
     // Second Phase
     //go_through_phase_2_();
@@ -66,7 +71,7 @@ void go_through_phase_1_()
 
 
     for(int time = 0; time < CURRENT_NUMBER_OF_ITERATIONS; time++){
-    //for(int time = 0; time < 4; time++){
+    //for(int time = 0; time < 5000; time++){
         if (time % number_of_data_vectors == 0){
             shuffle_vect(number_of_data_vectors);
         }
@@ -91,7 +96,9 @@ void go_through_phase_1_()
                     time, 
                     100 * (double)time/(double)CURRENT_NUMBER_OF_ITERATIONS);
             print_node_map_names(best_match_unit->i, best_match_unit->j);
-            //print_bmu(best_match_unit, node_map);
+            print_bmu(best_match_unit, node_map);
+            //end_pahse();
+            sleep(1);
         }
 
 
@@ -164,20 +171,32 @@ void end_pahse()
         int x = best_match_unit->i;
         int y = best_match_unit->j;
 
-        if(data[i].name[5] == 's')
+        if(data[shuffled_vector[i]].name[5] == 's')
             node_map[x][y].label[0] = 's';
-        else if(data[i].name[6] == 'e')
+        else if(data[shuffled_vector[i]].name[6] == 'e')
             node_map[x][y].label[0] = 'e';
-        if(data[i].name[6] == 'i')
+        if(data[shuffled_vector[i]].name[6] == 'i')
             node_map[x][y].label[0] = 'i';
     }
 
     for(int i = 0; i < NODE_MAP_HEIGHT; i++){
         for(int j = 0; j < NODE_MAP_LENGTH; j++){
+            if(node_map[i][j].label[0] == 'i'){
+                printf("%s", RED);
+            }
+            else if(node_map[i][j].label[0] == 'e'){
+                printf("%s", BLU);
+            }
+            else{
+                printf("%s", NRM);
+            }
+
             printf(" %c", node_map[i][j].label[0]);
         }
         printf("\n");
     }
+
+    printf("%s", NRM);
 }
 
 
@@ -190,9 +209,9 @@ void iterate_through_neighbours(int Time, int b_i, int b_j)
 
 
     if (Time % print_coefivcient == 0){ 
-        //print_doubles_vector(data[iterator].vect);
+        print_doubles_vector(data[iterator].vect);
 
-        //printf("alpha: %f    ", alpha);
+        printf("alpha: %f    ", alpha);
         //printf("neighbour_coeficient: %f\t", neighbour_coeficient);
         //printf("scalar: %f\n", alpha * neighbour_coeficient);
     }
@@ -218,8 +237,10 @@ void iterate_through_neighbours(int Time, int b_i, int b_j)
 
 double get_alpha(int Time)
 {
-    double ans = ALPHA_COEFICIENT * 
-        (1 - ((double)Time / (double)CURRENT_NUMBER_OF_ITERATIONS));
+    double time_constant = (double)CURRENT_NUMBER_OF_ITERATIONS / (double)MAP_RAD;
+
+    double ans = ALPHA_COEFICIENT * exp(-(double)Time/ time_constant);
+
 
     //printf("ALPHA_COEFICIENT: %f\t", ALPHA_COEFICIENT);
     //printf("TIME: %d\t", Time);
@@ -228,16 +249,12 @@ double get_alpha(int Time)
     return ans;
 }
 
-double get_neibour_coeficient(int Time, 
-        int c_i, int c_j, 
-        int b_i, int b_j)
+double get_neibour_coeficient(int Time, int c_i, int c_j, int b_i, int b_j)
 {
     double dist_q = (c_i - b_i) * (c_i - b_i) + (c_j - b_j) * (c_j - b_j);
 
-    double ans = 
-        (1 - (dist_q/(double)(2 * neigbour.n_of_rings * neigbour.n_of_rings)));
+    double ans = exp(-dist_q/ 2.0 * (double)neigbour.n_of_rings * (double)neigbour.n_of_rings);
 
-    //printf("THISSS: %f\n", ans);
     return ans;
 }
 
