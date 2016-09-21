@@ -12,10 +12,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="33dcf4c6-d9fd-4a90-8992-08013ec1e77e" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/luka_AI" afterPath="$PROJECT_DIR$/luka_AI" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Best_match_unit.c" afterPath="$PROJECT_DIR$/Best_match_unit.c" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Best_match_unit.h" afterPath="$PROJECT_DIR$/Best_match_unit.h" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/luka.c" afterPath="$PROJECT_DIR$/luka.c" />
     </list>
     <ignored path="test2.iws" />
@@ -39,11 +35,10 @@
       <file leaf-file-name="luka.c" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/luka.c">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="16" column="26" selection-start-line="16" selection-start-column="26" selection-end-line="16" selection-end-column="26" />
+            <state relative-caret-position="330">
+              <caret line="56" column="4" selection-start-line="56" selection-start-column="4" selection-end-line="56" selection-end-column="4" />
               <folding>
-                <element signature="e#2856#4178#0" expanded="false" />
-                <element signature="e#4180#5490#0" expanded="false" />
+                <element signature="e#4188#5498#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -367,12 +362,12 @@
       <workItem from="1473782869233" duration="10947000" />
       <workItem from="1473964826243" duration="6785000" />
       <workItem from="1474179878267" duration="6469000" />
-      <workItem from="1474435565146" duration="8131000" />
+      <workItem from="1474435565146" duration="8288000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="42183000" />
+    <option name="totallyTimeSpent" value="42340000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="57" y="24" width="1309" height="744" extended-state="6" />
@@ -600,11 +595,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/luka.c">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="16" column="26" selection-start-line="16" selection-start-column="26" selection-end-line="16" selection-end-column="26" />
+        <state relative-caret-position="330">
+          <caret line="56" column="4" selection-start-line="56" selection-start-column="4" selection-end-line="56" selection-end-column="4" />
           <folding>
-            <element signature="e#2856#4178#0" expanded="false" />
-            <element signature="e#4180#5490#0" expanded="false" />
+            <element signature="e#4188#5498#0" expanded="false" />
           </folding>
         </state>
       </provider>

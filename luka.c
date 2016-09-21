@@ -55,7 +55,7 @@ int main()
     go_through_phase_1_();
 
     // Second Phase
-    //go_through_phase_2_();
+    go_through_phase_2_();
 
     // End phase
     end_pahse();
@@ -91,7 +91,7 @@ void go_through_phase_1_()
 
         // printing the output
         if (time % print_coefivcient == 0){ 
-            printf("Progress=>\t N:%d\t |%f%%\n",
+            printf("PHASE 1:  Progress=>\t N:%d\t |%f%%\n",
                     time,
                     100 * (double)time/(double)CURRENT_NUMBER_OF_ITERATIONS);
             //print_node_map_names(best_match_unit->i, best_match_unit->j);
@@ -112,8 +112,7 @@ void go_through_phase_1_()
 void go_through_phase_2_()
 {
 
-    CURRENT_NUMBER_OF_ITERATIONS = 
-        TOTAL_NUMBER_OF_ITERATIONS - CURRENT_NUMBER_OF_ITERATIONS;
+    CURRENT_NUMBER_OF_ITERATIONS = TOTAL_NUMBER_OF_ITERATIONS - CURRENT_NUMBER_OF_ITERATIONS;
     ALPHA_COEFICIENT = 0.03;
 
 
@@ -139,7 +138,7 @@ void go_through_phase_2_()
 
         // printing the output
         if (time % print_coefivcient == 0){ 
-            printf("Progress=>\t N:%d\t |%f%%\n", 
+            printf("PHASE 2:  Progress=>\t N:%d\t |%f%%\n",
                     time, 
                     100 * (double)time/(double)CURRENT_NUMBER_OF_ITERATIONS);
             //print_node_map_names(best_match_unit->i, best_match_unit->j);
