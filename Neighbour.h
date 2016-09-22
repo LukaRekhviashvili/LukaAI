@@ -2,8 +2,6 @@
 #define NEIGHBOUR_H_INCLUDED
 
 #include "Best_match_unit.h"
-#include "Node_map.h"
-#include <math.h>
 
 struct neighbour_stats{
     int start_i, start_j;
@@ -12,7 +10,9 @@ struct neighbour_stats{
 };
 
 // neighbour funs
-void determine_neighbours(int NODE_MAP_HEIGHT, int NODE_MAP_LENGTH, struct bmu *_bmu, int Time, int TOTAL);
+void determine_neighbours(int NODE_MAP_HEIGHT, int NODE_MAP_LENGTH, struct bmu *_bmu);
+void find_number_of_neighbours(int NODE_MAP_HEIGHT, int NODE_MAP_LENGTH);
+void determine_neighbour_indexes(int NODE_MAP_HEIGHT, int NODE_MAP_LENGTH, struct bmu *_bmu);
 
 // variables
 extern struct neighbour_stats neigbour;
