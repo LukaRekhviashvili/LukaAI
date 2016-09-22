@@ -55,7 +55,7 @@ int main()
 
     // Second Phase
     CURRENT_NUMBER_OF_ITERATIONS = TOTAL_NUMBER_OF_ITERATIONS - CURRENT_NUMBER_OF_ITERATIONS;
-    ALPHA_COEFICIENT = 0.03;
+    ALPHA_COEFICIENT = 0.09;
 
     go_through_phase();
 
