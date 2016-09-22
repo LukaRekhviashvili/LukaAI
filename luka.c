@@ -12,10 +12,11 @@
 #define BLU  "\x1B[34m"
 #define GRN  "\x1B[32m"
 
-int TOTAL_NUMBER_OF_ITERATIONS = 500 * 150; // 500 * n_of_d_vects
+int TOTAL_NUMBER_OF_ITERATIONS = 500 * 150 * 1; // 500 * n_of_d_vects
 int CURRENT_NUMBER_OF_ITERATIONS;
 double ALPHA_COEFICIENT = 0.9; // 0,7 - 0,9
-int print_coefivcient = 100;
+int print_coefivcient = 3000;
+int phase_N = 1;
 
 //functions
 void print_doubles_vector(double * V);
@@ -26,6 +27,8 @@ double * multiplay_by_scalar(double * V, double scalar);
 void vect_sum(double * V1, double * V2);
 void go_through_phase();
 void end_pahse();
+void phase_1_();
+void phase_2_();
 void apply_Learning_rule_to_neighbours(int Time, int b_i, int b_j);
 
 
@@ -33,32 +36,23 @@ void apply_Learning_rule_to_neighbours(int Time, int b_i, int b_j);
 int main()
 {
     srand(time(NULL));
+    printf("\n");
 
     initialise_input_data_vector();
     normilise_input_data_vector();
 
     intitialise_shuffled_vect(number_of_data_vectors);
 
-    //printf("HERE:\n");
-    //for(int i=0;i<number_of_data_vectors;i++){
-    //    print_data_element(data[shuffled_vector[i]]);
-    //}
-
     initialise_randomised_data_vect(data, number_of_data_vectors, data_vector_size);
 
     initialise_node_map(data_vector_size, data);
 
     // First phase
-    CURRENT_NUMBER_OF_ITERATIONS = TOTAL_NUMBER_OF_ITERATIONS / 4;
-
-    go_through_phase();
+    phase_1_();
+    end_pahse();
 
     // Second Phase
-    CURRENT_NUMBER_OF_ITERATIONS = TOTAL_NUMBER_OF_ITERATIONS - CURRENT_NUMBER_OF_ITERATIONS;
-    ALPHA_COEFICIENT = 0.09;
-
-    go_through_phase();
-
+    phase_2_();
     // End phase
     end_pahse();
 
@@ -66,6 +60,35 @@ int main()
 }
 
 // PHASES
+void phase_1_()
+{
+    CURRENT_NUMBER_OF_ITERATIONS = TOTAL_NUMBER_OF_ITERATIONS / 4;
+
+    go_through_phase();
+
+    printf("\033[F\033[J");
+    printf("Phase %d =>\t%6.2f%%\t| N:%d\n",
+            phase_N,
+            100.0,
+            CURRENT_NUMBER_OF_ITERATIONS);
+}
+
+void phase_2_()
+{
+    printf("\n");
+    CURRENT_NUMBER_OF_ITERATIONS = TOTAL_NUMBER_OF_ITERATIONS - CURRENT_NUMBER_OF_ITERATIONS;
+    ALPHA_COEFICIENT = 0.09;
+    phase_N = 2;
+
+    go_through_phase();
+
+    printf("\033[F\033[J");
+    printf("Phase %d =>\t%6.2f%%\t| N:%d\n",
+            phase_N,
+            100.0,
+            CURRENT_NUMBER_OF_ITERATIONS);
+}
+
 void go_through_phase()
 {
     for(int time = 0; time < CURRENT_NUMBER_OF_ITERATIONS; time++){
@@ -89,9 +112,14 @@ void go_through_phase()
 
         // printing the output
         if (time % print_coefivcient == 0){ 
-            //printf("PHASE:  Progress=>\t N:%d\t |%f%%\n",
-            //        time,
-            //        100 * (double)time/(double)CURRENT_NUMBER_OF_ITERATIONS);
+            //printf("Progress=>\t %05.2f%%\t| N:%d\n",
+            printf("\033[F\033[J");
+            printf("Phase %d =>\t%6.2f%%\t| N:%d\n",
+                    phase_N,
+                    100 * (double)time/(double)CURRENT_NUMBER_OF_ITERATIONS,
+                    time);
+            //if(number_of_bmu_nodes > 1)
+                //printf("   %d\n", number_of_bmu_nodes);
             //print_node_map_names(best_match_unit->i, best_match_unit->j);
             //print_bmu(best_match_unit, node_map);
 
@@ -107,7 +135,7 @@ void go_through_phase()
 
 void end_pahse()
 {
-    printf("   Result Map:\n");
+    printf("\n     Result Map\n");
 
     for(int i = 0; i < NODE_MAP_HEIGHT; i++){
         for(int j = 0; j < NODE_MAP_LENGTH; j++){
@@ -153,7 +181,7 @@ void end_pahse()
         printf("\n");
     }
 
-    printf("%s", NRM);
+    printf("%s\n", NRM);
 }
 
 
@@ -209,7 +237,7 @@ double get_neibour_coeficient(int Time, int c_i, int c_j, int b_i, int b_j)
 {
     double dist_q = (c_i - b_i) * (c_i - b_i) + (c_j - b_j) * (c_j - b_j);
 
-    double ans = exp(-dist_q/ 2.0 * (double)neigbour.n_of_rings * (double)neigbour.n_of_rings);
+    double ans = exp(-dist_q/ (2.0 * (double)neigbour.n_of_rings * (double)neigbour.n_of_rings));
 
     return ans;
 }

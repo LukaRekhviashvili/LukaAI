@@ -27,7 +27,8 @@ void initialise_node_map(int data_vector_size, struct data_vect *data)
     for (int i = 0; i < NODE_MAP_HEIGHT; ++i) {
         for (int j = 0; j < NODE_MAP_LENGTH; ++j) {
             node_map[i][j].w = malloc(data_vector_size * sizeof(double));
-            int iterator = i * NODE_MAP_LENGTH + j;
+            int iterator = 
+                (i * NODE_MAP_LENGTH + j) % number_of_data_vectors;
 
             // Initialise vector
             for(int k = 0; k < data_vector_size; k++){

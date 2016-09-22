@@ -5,7 +5,7 @@
 double * middle_vector;
 
 // public variables
-double RANDOMISER_MAX = 0.02, RANDOMISER_MIN = -0.05;
+double RANDOMISER_MAX = 0.002, RANDOMISER_MIN = -0.005;
 struct data_vect * randomised_data;
 int * shuffled_vector;
 
